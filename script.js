@@ -4,32 +4,26 @@ const infoWidget = document.getElementById('infoWidget');
 // Ensure DOM is loaded before running scripts
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, initializing animations');
-  
   // Initialize scroll functionality
   initScrollEffects();
-  
   // Fallback: Trigger animations after a delay if scroll doesn't work
   setTimeout(() => {
     const widgets = document.querySelectorAll('.widget');
     const projects = document.querySelectorAll('.project');
     const display = document.querySelector('.display');
-    
     // If no scroll has happened, trigger animations anyway
     if (widgets.length > 0 && !widgets[0].hasAttribute('data-animated')) {
       console.log('Fallback: Triggering animations manually');
-      
       widgets.forEach((widget, index) => {
         setTimeout(() => {
           widget.setAttribute('data-animated', 'true');
         }, index * 100);
       });
-      
       projects.forEach((project, index) => {
         setTimeout(() => {
           project.setAttribute('data-animated', 'true');
         }, (index + 7) * 100);
       });
-      
       if (display) {
         setTimeout(() => {
           display.setAttribute('data-animated', 'true');
