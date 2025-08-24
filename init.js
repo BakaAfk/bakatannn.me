@@ -69,17 +69,22 @@ const draw = data => {
         if(act.type === 4) {
             if(act.state || act.emoji) {
                 statusTextElem.innerText = `${act.state ? act.state : ""}`;
-                if(act.emoji) {
-                    if(act.emoji.id) {
-                        statusEmojiElem.src = `https://cdn.discordapp.com/emojis/${act.emoji.id}`;
-                        statusEmojiElem.alt = " ";
-                    } else {
-                        statusEmojiElem.src = "";
-                        statusEmojiElem.alt = act.emoji.name;
-                    }
+                if(act.emoji && act.emoji.id) {
+                    statusEmojiElem.src = `https://cdn.discordapp.com/emojis/${act.emoji.id}`;
+                    statusEmojiElem.alt = " ";
+                    statusEmojiElem.style.display = "inline";
+                } else {
+                    // Hide emoji element when no emoji is present
+                    statusEmojiElem.style.display = "none";
+                    statusEmojiElem.src = "";
+                    statusEmojiElem.alt = "";
                 }
             } else {
                 statusElem.innerText = "";
+                // Hide emoji when no status
+                statusEmojiElem.style.display = "none";
+                statusEmojiElem.src = "";
+                statusEmojiElem.alt = "";
             }
         } else {
             const isSpotify = act.id === "spotify:1" && data.spotify;

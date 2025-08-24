@@ -4,6 +4,13 @@ const infoWidget = document.getElementById('infoWidget');
 // Ensure DOM is loaded before running scripts
 document.addEventListener('DOMContentLoaded', function() {
   console.log('DOM loaded, initializing animations');
+  
+  // Apply profile backdrop URL from config
+  if (typeof config !== 'undefined' && config.profile_backdrop_url) {
+    document.documentElement.style.setProperty('--backdrop-url', `url("${config.profile_backdrop_url}")`);
+    console.log('Profile backdrop URL applied:', config.profile_backdrop_url);
+  }
+  
   // Initialize scroll functionality
   initScrollEffects();
   // Fallback: Trigger animations after a delay if scroll doesn't work
