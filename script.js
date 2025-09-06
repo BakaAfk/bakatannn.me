@@ -13,31 +13,6 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize scroll functionality
   initScrollEffects();
-  // Fallback: Trigger animations after a delay if scroll doesn't work
-  setTimeout(() => {
-    const widgets = document.querySelectorAll('.widget');
-    const projects = document.querySelectorAll('.project');
-    const display = document.querySelector('.display');
-    // If no scroll has happened, trigger animations anyway
-    if (widgets.length > 0 && !widgets[0].hasAttribute('data-animated')) {
-      console.log('Fallback: Triggering animations manually');
-      widgets.forEach((widget, index) => {
-        setTimeout(() => {
-          widget.setAttribute('data-animated', 'true');
-        }, index * 100);
-      });
-      projects.forEach((project, index) => {
-        setTimeout(() => {
-          project.setAttribute('data-animated', 'true');
-        }, (index + 7) * 100);
-      });
-      if (display) {
-        setTimeout(() => {
-          display.setAttribute('data-animated', 'true');
-        }, 900);
-      }
-    }
-  }, 2000); // 2 second fallback
 });
 
 function initScrollEffects() {
@@ -56,31 +31,6 @@ function initScrollEffects() {
         }
       }
 
-      // Trigger widget animations when scrolled
-      if (scroll >= 0) {
-        const widgets = document.querySelectorAll('.widget');
-        widgets.forEach((widget, index) => {
-          setTimeout(() => {
-            widget.setAttribute('data-animated', 'true');
-          }, index * 100);
-        });
-
-        // Trigger project widget animations
-        const projects = document.querySelectorAll('.project');
-        projects.forEach((project, index) => {
-          setTimeout(() => {
-            project.setAttribute('data-animated', 'true');
-          }, (index + 7) * 100);
-        });
-
-        // Trigger Discord presence widget animation
-        const display = document.querySelector('.display');
-        if (display) {
-          setTimeout(() => {
-            display.setAttribute('data-animated', 'true');
-          }, 900);
-        }
-      }
     } catch (error) {
       console.error('Scroll effect error:', error);
     }
@@ -104,28 +54,6 @@ function scrollToMain() {
   }
 }
 
-// Title letter-by-letter animation
-(function() {
-  try {
-    const fullTitle = document.title;
-    let i = 1;
-    let wait = 0;
-    const interval = setInterval(() => {
-      document.title = fullTitle.substring(0, i);
-      if (i === fullTitle.length) {
-        wait++;
-        if (wait > 2) {
-          clearInterval(interval);
-          document.title = fullTitle;
-        }
-      } else {
-        i++;
-      }
-    }, 400);
-  } catch (error) {
-    console.error('Title animation error:', error);
-  }
-})();
 
 // View count functionality
 (function() {
@@ -155,14 +83,6 @@ function scrollToMain() {
       if (viewCountElement) {
         const count = incrementViewCount();
         viewCountElement.textContent = formatNumber(count);
-        viewCountElement.style.opacity = '0';
-        viewCountElement.style.transform = 'translateY(10px)';
-        // Animate the count update
-        setTimeout(() => {
-          viewCountElement.style.transition = 'all 0.3s ease';
-          viewCountElement.style.opacity = '1';
-          viewCountElement.style.transform = 'translateY(0)';
-        }, 100);
       }
     }
 
