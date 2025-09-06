@@ -126,3 +126,57 @@ function scrollToMain() {
     console.error('Title animation error:', error);
   }
 })();
+
+// View count functionality
+(function() {
+  try {
+    // Get or initialize view count from localStorage
+    function getViewCount() {
+      const stored = localStorage.getItem('pageViewCount');
+      return stored ? parseInt(stored, 10) : 0;
+    }
+
+    // Increment and save view count
+    function incrementViewCount() {
+      const currentCount = getViewCount();
+      const newCount = currentCount + 1;
+      localStorage.setItem('pageViewCount', newCount.toString());
+      return newCount;
+    }
+
+    // Format number with commas
+    function formatNumber(num) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
+    // Update view count display
+    function updateViewCountDisplay() {
+      const viewCountElement = document.getElementById('viewCount');
+      if (viewCountElement) {
+        const count = incrementViewCount();
+        viewCountElement.textContent = formatNumber(count);
+        viewCountElement.style.opacity = '0';
+        viewCountElement.style.transform = 'translateY(10px)';
+        // Animate the count update
+        setTimeout(() => {
+          viewCountElement.style.transition = 'all 0.3s ease';
+          viewCountElement.style.opacity = '1';
+          viewCountElement.style.transform = 'translateY(0)';
+        }, 100);
+      }
+    }
+
+    // Initialize view count when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      updateViewCountDisplay();
+    });
+
+  } catch (error) {
+    console.error('View count error:', error);
+    // Fallback: show error message
+    const viewCountElement = document.getElementById('viewCount');
+    if (viewCountElement) {
+      viewCountElement.textContent = 'Error loading count';
+    }
+  }
+})();
