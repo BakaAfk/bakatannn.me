@@ -31,6 +31,32 @@ function initScrollEffects() {
         }
       }
 
+      // Trigger widget animations when scrolled
+      if (scroll >= 0) {
+        const widgets = document.querySelectorAll('.widget');
+        widgets.forEach((widget, index) => {
+          setTimeout(() => {
+            widget.setAttribute('data-animated', 'true');
+          }, index * 100);
+        });
+
+        // Trigger project widget animations
+        const projects = document.querySelectorAll('.project');
+        projects.forEach((project, index) => {
+          setTimeout(() => {
+            project.setAttribute('data-animated', 'true');
+          }, (index + 7) * 100);
+        });
+
+        // Trigger Discord presence widget animation
+        const display = document.querySelector('.display');
+        if (display) {
+          setTimeout(() => {
+            display.setAttribute('data-animated', 'true');
+          }, 900);
+        }
+      }
+
     } catch (error) {
       console.error('Scroll effect error:', error);
     }
