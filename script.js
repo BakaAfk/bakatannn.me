@@ -81,48 +81,78 @@ function scrollToMain() {
 }
 
 
-// View count functionality
+// Global view count functionality using Vercel API proxy
 (function() {
-  try {
-    // Get or initialize view count from localStorage
-    function getViewCount() {
-      const stored = localStorage.getItem('pageViewCount');
-      return stored ? parseInt(stored, 10) : 0;
-    }
+  // Vercel API proxy endpoint (replace with your actual Vercel URL)
+  const API_BASE = 'https://cntter.vercel.app/api/stats';
+  
+  // Format number with commas
+  function formatNumber(num) {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
 
-    // Increment and save view count
-    function incrementViewCount() {
-      const currentCount = getViewCount();
-      const newCount = currentCount + 1;
-      localStorage.setItem('pageViewCount', newCount.toString());
-      return newCount;
-    }
-
-    // Format number with commas
-    function formatNumber(num) {
-      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
-    // Update view count display
-    function updateViewCountDisplay() {
-      const viewCountElement = document.getElementById('viewCount');
-      if (viewCountElement) {
-        const count = incrementViewCount();
-        viewCountElement.textContent = formatNumber(count);
-      }
-    }
-
-    // Initialize view count when DOM is loaded
-    document.addEventListener('DOMContentLoaded', function() {
-      updateViewCountDisplay();
-    });
-
-  } catch (error) {
-    console.error('View count error:', error);
-    // Fallback: show error message
-    const viewCountElement = document.getElementById('viewCount');
-    if (viewCountElement) {
-      viewCountElement.textContent = 'Error loading count';
+  // Function to hide the view count widget
+  function hideViewCountWidget() {
+    const viewCountWidget = document.querySelector('.view-count-fixed');
+    if (viewCountWidget) {
+      viewCountWidget.style.display = 'none';
     }
   }
+
+  // Get current count
+  async function getCurrentCount() {
+    try {
+      const response = await fetch(API_BASE);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      return data.up_count || 0;
+    } catch (error) {
+      console.error('Error fetching current count:', error);
+      throw error;
+    }
+  }
+
+  // Increment count and get new value
+  async function incrementCount() {
+    try {
+      const response = await fetch(`${API_BASE}?action=up`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      console.log('API Response:', data); // Debug log
+      return data.up_count || 0;
+    } catch (error) {
+      console.error('Error incrementing count:', error);
+      throw error;
+    }
+  }
+
+  // Initialize view count when DOM is loaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const viewCountElement = document.getElementById('viewCount');
+    const viewCountWidget = document.querySelector('.view-count-fixed');
+    
+    if (viewCountElement && viewCountWidget) {
+      // Show loading state
+      viewCountElement.textContent = 'Loading...';
+      
+      // Increment the view count when the page loads
+      incrementCount()
+        .then(count => {
+          viewCountElement.textContent = formatNumber(count);
+        })
+        .catch(error => {
+          console.error('Error tracking page view:', error);
+          // Hide the entire view count widget if API fails
+          hideViewCountWidget();
+        });
+    }
+  });
 })();
