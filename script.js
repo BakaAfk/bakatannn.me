@@ -22,12 +22,12 @@ function initScrollEffects() {
       const scroll = Math.min(window.scrollY / window.innerHeight, 1);
       document.body.style.setProperty('--scroll', scroll);
 
-      // Hide arrow after scrolling begins
-      const arrow = document.querySelector('.arrow');
+      // Hide scroll down container after scrolling begins
+      const scrollDownContainer = document.querySelector('.scroll-down-container');
       if (scroll > 0.05) {
-        if (arrow) {
-          arrow.style.opacity = '0';
-          arrow.style.pointerEvents = 'none';
+        if (scrollDownContainer) {
+          scrollDownContainer.style.opacity = '0';
+          scrollDownContainer.style.pointerEvents = 'none';
         }
       }
 

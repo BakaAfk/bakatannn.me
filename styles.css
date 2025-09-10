@@ -167,28 +167,67 @@ header .bio:hover {
     max-width: 95vw;
   }
 }
-.arrow {
+.scroll-down-container {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   position: fixed;
   right: 0;
   bottom: 0;
   left: 0;
   justify-content: center;
   transition: opacity 0.5s ease, pointer-events 0.5s ease;
+  gap: 10px;
+  padding-bottom: 20px;
 }
+
+.scroll-down-text {
+  color: #fff;
+  font-size: 16px;
+  font-weight: 500;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+  animation: scrollDownPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollDownPulse {
+  0%, 100% {
+    opacity: 0.8;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-3px);
+  }
+}
+
+.arrow {
+  display: flex;
+  justify-content: center;
+}
+
 .arrow svg {
-  opacity: .5;
-  transition: opacity .2s;
+  opacity: .6;
+  transition: opacity .2s, transform .2s;
   cursor: pointer;
   padding: 0 15px;
-  width: 80px;
-  height: 120px;
+  width: 60px;
+  height: 80px;
   color: #fff;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
 }
+
 .arrow svg:hover {
-  opacity: .8;
+  opacity: .9;
+  transform: translateY(-2px);
 }
-body[style*='.'] .arrow {
+
+.scroll-down-container:hover .scroll-down-text {
+  opacity: 1;
+}
+
+body[style*='.'] .scroll-down-container {
   opacity: 0;
   pointer-events: none;
 }
