@@ -1,5 +1,5 @@
 :root {
-  --background: url('/bg.jpg');
+  --background: url('../assets/bg.jpg');
   --widget: #def9;
   --widget-hover: #defb;
   --backdrop-url: url('https://bakaafk.s-ul.eu/xfbnV9IG.gif');
