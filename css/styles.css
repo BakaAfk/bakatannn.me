@@ -401,8 +401,6 @@ aside {
   animation-delay: calc(var(--scroll) * 0s + var(--project-delay, 0s));
 }
 
-.project:nth-child(1) { --project-delay: 0.7s; }
-.project:nth-child(2) { --project-delay: 0.8s; }
 
 .project[data-animated="true"] {
   animation-play-state: running;

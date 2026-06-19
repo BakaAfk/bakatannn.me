@@ -43,6 +43,7 @@ function initScrollEffects() {
         // Trigger project widget animations
         const projects = document.querySelectorAll('.project');
         projects.forEach((project, index) => {
+          project.style.setProperty('--project-delay', `${0.7 + (index * 0.1)}s`);
           setTimeout(() => {
             project.setAttribute('data-animated', 'true');
           }, (index + 7) * 100);
